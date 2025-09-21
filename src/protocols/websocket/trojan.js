@@ -77,6 +77,21 @@ export async function TrOverWSHandler(request) {
     });
 }
 
+function addDaysAndFormatYMMDD(days) {
+    // دریافت تاریخ و اضافه کردن روزها
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    
+    // استخراج بخش‌های تاریخ
+    const yearLastTwo = String(date.getFullYear()).slice(-2); // دو رقم آخر سال
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // ماه دو رقمی
+    const day = String(date.getDate()).padStart(2, '0'); // روز دو رقمی
+    
+    // ترکیب به فرمت YMMDD
+    return `${yearLastTwo}${month}${day}`;
+  }
+
+
 function parseTRHeader(buffer) {
     if (buffer.byteLength < 56) {
         return {
@@ -94,7 +109,22 @@ function parseTRHeader(buffer) {
     }
 
     const password = new TextDecoder().decode(buffer.slice(0, crLfIndex));
-    if (password !== sha224(globalConfig.TrPass)) {
+
+
+    var passvalid = false;
+
+
+
+    var i = 0;
+    for (i = 0; i < 10; i++) {
+
+      var daytimp=  addDaysAndFormatYMMDD(i);
+       if (password === sha224(daytimp))
+            passvalid = true;
+    }
+
+
+    if (!passvalid) {
         return {
             hasError: true,
             message: "invalid password",
