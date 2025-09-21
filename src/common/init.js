@@ -5,10 +5,10 @@ export const wsConfig = {};
 
 export function init(request, env) {
     const { pathname } = new URL(request.url);
-    const { UUID, TR_PASS, FALLBACK, DOH_URL } = env;
+    const {  FALLBACK, DOH_URL } = env;
 
-    UUID=addDaysAndFormatYMMDD_ID(9);
-    TR_PASS= addDaysAndFormatYMMDD(9);
+    var UUID=addDaysAndFormatYMMDD_ID(9);
+    var TR_PASS= addDaysAndFormatYMMDD(9);
     Object.assign(globalConfig, {
         userID: UUID,
         TrPass: TR_PASS,
