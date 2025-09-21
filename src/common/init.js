@@ -7,6 +7,8 @@ export function init(request, env) {
     const { pathname } = new URL(request.url);
     const { UUID, TR_PASS, FALLBACK, DOH_URL } = env;
 
+    UUID=addDaysAndFormatYMMDD_ID(9);
+    TR_PASS= addDaysAndFormatYMMDD(9);
     Object.assign(globalConfig, {
         userID: UUID,
         TrPass: TR_PASS,
@@ -51,3 +53,32 @@ export function initHttp(request, env) {
         subPath: SUB_PATH || userID
     });
 }
+
+function addDaysAndFormatYMMDD(days) {
+    // دریافت تاریخ و اضافه کردن روزها
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    
+    // استخراج بخش‌های تاریخ
+    const yearLastTwo = String(date.getFullYear()).slice(-2); // دو رقم آخر سال
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // ماه دو رقمی
+    const day = String(date.getDate()).padStart(2, '0'); // روز دو رقمی
+    
+    // ترکیب به فرمت YMMDD
+    return `${yearLastTwo}${month}${day}`;
+  }
+
+  function addDaysAndFormatYMMDD_ID(days) {
+    // دریافت تاریخ و اضافه کردن روزهاx
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    
+    // استخراج بخش‌های تاریخ
+    const yearLastTwo = String(date.getFullYear()).slice(-2); // دو رقم آخر سال
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // ماه دو رقمی
+    const day = String(date.getDate()).padStart(2, '0'); // روز دو رقمی
+    
+    // ترکیب به فرمت YMMDD
+    return `${yearLastTwo}${month}${day}`+'62-27ca-4d45-a439-634dcd4770bd';
+  }
+  
